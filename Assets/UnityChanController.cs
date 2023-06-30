@@ -68,20 +68,20 @@ public class UnityChanController : MonoBehaviour
         //上方向の入力による速度
         float inputVelocityY = 0;
 
-        //Unityちゃんを矢印キーまたはボタンに応じて左右に移動させる
-        if (Input.GetKey(KeyCode.LeftArrow) && -this.movableRange < this.transform.position.x)
+        //Unityちゃんを矢印キーまたはボタンに応じて左右に移動させる（追加）
+        if ((Input.GetKey(KeyCode.LeftArrow) || this.isLButtonDown) && -this.movableRange < this.transform.position.x)
         {
             //左方向への速度を代入
             inputVelocityX = -this.velocityX;
         }
-        else if (Input.GetKey(KeyCode.RightArrow) && this.transform.position.x < this.movableRange)
+        else if ((Input.GetKey(KeyCode.RightArrow) || this.isRButtonDown) && this.transform.position.x < this.movableRange)
         {
             //右方向への速度を代入
             inputVelocityX = this.velocityX;
         }
 
-        //ジャンプしていない時にスペースが押されたらジャンプする
-        if (Input.GetKeyDown(KeyCode.Space) && this.transform.position.y < 0.5f)
+        //ジャンプしていない時にスペースまたはボタンが押されたらジャンプする（追加）
+        if ((Input.GetKeyDown(KeyCode.Space) || this.isJButtonDown) && this.transform.position.y < 0.5f)
         {
             //ジャンプアニメを再生
             this.myAnimator.SetBool("Jump", true);
