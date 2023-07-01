@@ -47,7 +47,7 @@ public class UnityChanController : MonoBehaviour
         //Rigidbodyコンポーネントを取得
         this.myRigidbody = GetComponent<Rigidbody>();
 
-        //シーン中のstateTextオブジェクトを取得（追加）
+        //シーン中のstateTextオブジェクトを取得
         this.stateText = GameObject.Find("GameResultText");
 
         //シーン中のscoreTextオブジェクトを取得
@@ -68,7 +68,7 @@ public class UnityChanController : MonoBehaviour
         //上方向の入力による速度
         float inputVelocityY = 0;
 
-        //Unityちゃんを矢印キーまたはボタンに応じて左右に移動させる（追加）
+        //Unityちゃんを矢印キーまたはボタンに応じて左右に移動させる
         if ((Input.GetKey(KeyCode.LeftArrow) || this.isLButtonDown) && -this.movableRange < this.transform.position.x)
         {
             //左方向への速度を代入
@@ -80,7 +80,7 @@ public class UnityChanController : MonoBehaviour
             inputVelocityX = this.velocityX;
         }
 
-        //ジャンプしていない時にスペースまたはボタンが押されたらジャンプする（追加）
+        //ジャンプしていない時にスペースまたはボタンが押されたらジャンプする
         if ((Input.GetKeyDown(KeyCode.Space) || this.isJButtonDown) && this.transform.position.y < 0.5f)
         {
             //ジャンプアニメを再生
@@ -102,6 +102,14 @@ public class UnityChanController : MonoBehaviour
 
         //Unityちゃんに速度を与える
         this.myRigidbody.velocity = new Vector3(inputVelocityX, inputVelocityY, velocityZ);
+
+        // ユニティちゃんが画面外に出たら破棄する
+        if (transform.position.z < Camera.main.transform.position.z)
+        {
+            Destroy(gameObject);
+        }
+
+
     }
 
     //トリガーモードで他のオブジェクトと接触した場合の処理
@@ -137,6 +145,12 @@ public class UnityChanController : MonoBehaviour
             GetComponent<ParticleSystem>().Play();
 
             //接触したコインのオブジェクトを破棄
+            Destroy(other.gameObject);
+        }
+
+        // 必要のなくなったオブジェクトを破棄する
+        if (other.gameObject.tag == "CarTag" || other.gameObject.tag == "CoinTag" || other.gameObject.tag == "TrafficConeTag")
+        {
             Destroy(other.gameObject);
         }
     }
@@ -175,4 +189,5 @@ public class UnityChanController : MonoBehaviour
         this.isRButtonDown = false;
     }
 
+    
 }
