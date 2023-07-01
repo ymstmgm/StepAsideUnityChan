@@ -104,7 +104,7 @@ public class UnityChanController : MonoBehaviour
         this.myRigidbody.velocity = new Vector3(inputVelocityX, inputVelocityY, velocityZ);
 
         // ユニティちゃんが画面外に出たら破棄する
-        if (transform.position.z < Camera.main.transform.position.z)
+        if (transform.position.z < Camera.main.transform.position.z - 10f)
         {
             Destroy(gameObject);
         }
@@ -148,11 +148,7 @@ public class UnityChanController : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        // 必要のなくなったオブジェクトを破棄する
-        if (other.gameObject.tag == "CarTag" || other.gameObject.tag == "CoinTag" || other.gameObject.tag == "TrafficConeTag")
-        {
-            Destroy(other.gameObject);
-        }
+        
     }
 
     //ジャンプボタンを押した場合の処理
